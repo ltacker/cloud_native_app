@@ -1,4 +1,4 @@
-readonly THRESHOLD=1
+readonly THRESHOLD=10
 
 timeout $THRESHOLD ./tests/b.sh http://localhost:8082 1 100
 
