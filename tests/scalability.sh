@@ -7,6 +7,13 @@ then
   exit 1
 fi
 
+timeout $THRESHOLD ./tests/s.sh http://localhost:8000/index.html 1 100
+
+if [ $? -gt 0 ]
+then
+  exit 1
+fi
+
 timeout $THRESHOLD ./tests/play.sh http://localhost:8000/index.html 1 100
 
 if [ $? -gt 0 ]
