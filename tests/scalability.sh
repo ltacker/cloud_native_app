@@ -1,6 +1,6 @@
 readonly THRESHOLD=100
 
-timeout $THRESHOLD ./b.sh http://localhost:8082 1 10
+timeout $THRESHOLD ./tests/b.sh http://localhost:8082 1 10
 
 if [ $? -gt 0 ]
 then
