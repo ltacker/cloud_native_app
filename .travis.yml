@@ -4,6 +4,4 @@ services:
   - docker
 
 script:
-  - docker ps -a
-  - ./tests/b.sh
-  - ./tests/play.sh
+  - ./tests/scalabitity.sh
