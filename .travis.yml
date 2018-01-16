@@ -4,4 +4,9 @@ services:
   - docker
 
 script:
-  - ./tests/scalability.sh
+  - ./tests/scalabilityB.sh
+  - ./tests/scalabilityI.sh
+  - ./tests/scalabilityP.sh
+  - ./tests/scalabilityS.sh
+  - ./tests/scalabilityW.sh
+  - ./tests/scalabilityPlay.sh
