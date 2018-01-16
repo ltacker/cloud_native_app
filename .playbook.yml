@@ -4,7 +4,7 @@
   hosts: localhost
   vars_files:    - vars/main.yml
   tasks:
-    # Create key file with 0600 permissions    
+    # Create key file with 0600 permissions
     # http://docs.ansible.com/ansible/copy_module.html
     - name: Add private key
       copy:
@@ -58,3 +58,28 @@
     # http://docs.ansible.com/ansible/wait_for_module.html
     - name: Wait for SSH to be active
       local_action: wait_for port="{{ ssh_port }}" host="{{ create_server.openstack.public_v4 }}" search_regex=OpenSSH
+
+
+- name: Configure instance withdocker
+  hosts: new_hosts #must match groupname in "add_host" above
+  vars:
+    app_folder: "cloud"
+  tasks:
+    # Update apt list
+    # http://docs.ansible.com/ansible/apt_module.html
+    - name: Update apt list
+      apt:
+        update_cache: yes
+      become: true
+
+    # Install APT packages
+    - name: Install packages
+      apt:
+        name: "{{ item }}"
+      become: true
+      with_items:
+        - docker-ce
+
+# Launch docker compose
+- name: Launch docker
+  command: "docker-compose up"
