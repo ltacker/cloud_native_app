@@ -1,12 +1,18 @@
-sudo: required
+language: python
+python:
+  - "2.7"
 
-services:
-  - docker
+env:
+  - ANSIBLE_HOST_KEY_CHECKING=False
 
 script:
-  - ./tests/scalabilityB.sh
-  - ./tests/scalabilityI.sh
-  - ./tests/scalabilityP.sh
-  - ./tests/scalabilityS.sh
-  - ./tests/scalabilityW.sh
-  - ./tests/scalabilityPlay.sh
+  - echo "Run test scripts here"
+
+before_deploy:
+  - pip install ansible shade
+
+deploy:
+  - provider: script
+    script: "ansible-playbook .playbook.yml"
+    on:
+      branch: master
