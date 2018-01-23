@@ -10,7 +10,7 @@ services:
 install:
   - pip install pytest
 
-before-script:
+before_script:
   - docker-compose up
 
 script:
