@@ -1,6 +1,6 @@
 readonly THRESHOLD=10
 
-timeout $THRESHOLD ./tests/p.sh http://localhost:8083/index.html 1 100
+timeout $THRESHOLD ./tests/p.sh http://localhost 1 100
 
 
 if [ $? -gt 0 ]
