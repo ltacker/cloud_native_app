@@ -12,7 +12,6 @@ install:
 
 before_script:
   - docker-compose up -d
-  - sleep 300
 
 script:
   - ./tests/scalabilityB.sh
