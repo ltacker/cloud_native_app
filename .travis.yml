@@ -10,6 +10,9 @@ services:
 install:
   - pip install pytest
 
+before_script:
+  - docker-compose up -d
+
 script:
   - ./tests/scalabilityB.sh
   - ./tests/scalabilityI.sh
