@@ -10,4 +10,4 @@ def test_list_prices():
     print(ipath)
     with open(ipath, 'r') as f:
         flines = f.readlines()
-        assert len([l in flines if '    cmd = "convert' in l]) != 0
+        assert len([l for l in flines if '    cmd = "convert' in l]) != 0
