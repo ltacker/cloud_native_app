@@ -10,4 +10,4 @@ def test_mailgun_response():
     print(ipath)
     with open(ipath, 'r') as f:
         flines = f.readlines()
-        assert len([l for l in flines if '        response = mailgun' in l]) != 0
+        assert len([l for l in flines if '    response = mailgun' in l]) != 0
