@@ -10,3 +10,4 @@ script:
   - ./tests/scalabilityS.sh
   - ./tests/scalabilityW.sh
   - ./tests/scalabilityPlay.sh
+  - pytest
