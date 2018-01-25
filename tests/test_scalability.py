@@ -21,9 +21,9 @@ def req(url):
 
 def pool_request(service, ids):
     p = Pool()
-    p.map_async(req, url_list(service, ids))
-    p.wait()
-    return p
+    r = p.map_async(req, url_list(service, ids))
+    r.wait()
+    return r
 
 def pool_time(service):
     start = time.time()
