@@ -9,17 +9,13 @@ services:
 
 install:
   - pip install pytest
+  - pip install requests
 
 before_script:
   - docker-compose up -d
   - sleep 300
 
 script:
-  - ./tests/scalabilityB.sh
-  - ./tests/scalabilityI.sh
-  - ./tests/scalabilityP.sh
-  - ./tests/scalabilityS.sh
-  - ./tests/scalabilityW.sh
   - ./tests/scalabilityPlay.sh
   - pytest
 
