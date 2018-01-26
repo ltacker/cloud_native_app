@@ -19,7 +19,10 @@ before_script:
   # - docker service ls
   # - docker service scale w=5
   - ./docker_services.sh
-  - sleep 100
+  - sleep 5
+  - docker service scale cna_w=5
+  - docker service ls
+  - sleep 20
 
 script:
   - ./tests/scalabilityPlay.sh
