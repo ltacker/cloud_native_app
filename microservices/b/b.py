@@ -38,7 +38,7 @@ def api_play(id):
     config.logger.debug(w)
 
     data = w.json()
-    config.logger.debug("data length: " + str(len(data["price"])))
+    config.logger.debug("(%s) data price: %s", id, data["price"])
 
     # Send message to workers.
     if config.b.conf_file.get_b_rabbithost() == 'localhost':
@@ -54,7 +54,11 @@ def api_play(id):
                 credentials=credentials,
                 host=config.b.conf_file.get_b_rabbithost()))
 
+    config.logger.debug("(%s) connected to rabbit", id)
+
     channel = connection.channel()
+
+    config.logger.debug("(%s) channel to rabbit", id)
 
     channel.exchange_declare(exchange='serviceb',
                              exchange_type='direct')
