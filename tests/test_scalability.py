@@ -21,15 +21,11 @@ def req(url):
 
 def pool_request(service, ids):
     p = Pool()
-    r = p.map_async(req, url_list(service, ids))
-    r.wait()
-    return r
+    return p.map(req, url_list(service, ids))
 
 def pool_time(service):
     start = time.time()
     p = pool_request(service, range(1, NUMBER_OF_ID + 1))
-    if not p.successful():
-        return None
     return time.time() - start
 
 @pytest.mark.parametrize("service,timeout", [
