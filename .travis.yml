@@ -13,7 +13,7 @@ install:
 
 before_script:
   - docker-compose up -d --scale w=12 --scale b=6
-  - sleep 30
+  - sleep 10
 
 script:
   - ./tests/scalabilityPlay.sh
