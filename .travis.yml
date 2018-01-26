@@ -12,8 +12,13 @@ install:
   - pip install requests
 
 before_script:
-  - docker-compose up -d --scale w=12 --scale b=6
+  - docker swarm init
+  - docker-compose build
+  - docker stack deploy -c docker-compose.yml cna
   - sleep 10
+  - docker service ls
+  - docker service scale w=5
+  - sleep 100
 
 script:
   - ./tests/scalabilityPlay.sh
