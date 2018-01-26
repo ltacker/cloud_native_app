@@ -12,8 +12,8 @@ install:
   - pip install requests
 
 before_script:
-  - docker-compose up -d --scale w=6
-  - sleep 300
+  - docker-compose up -d --scale w=12 --scale b=6
+  - sleep 30
 
 script:
   - ./tests/scalabilityPlay.sh
