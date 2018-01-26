@@ -12,7 +12,7 @@ install:
   - pip install requests
 
 before_script:
-  - docker-compose up -d
+  - docker-compose up -d --scale w=6
   - sleep 300
 
 script:
