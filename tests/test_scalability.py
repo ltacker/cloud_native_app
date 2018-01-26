@@ -12,7 +12,7 @@ TEST_TIMEOUT = 10
 
 def url_list(service, ids):
     for i in ids:
-        yield PROTOCOL + "://" + HOSTNAME + ":" + str(PORT) + "/srv" + service + "/usr/" + str(i)
+        yield PROTOCOL + "://" + HOSTNAME + ":" + str(PORT) + "/srv" + service + "/user/" + str(i)
 
 def req(url):
     r = requests.get(url, timeout=CONNECTION_TIMEOUT)
