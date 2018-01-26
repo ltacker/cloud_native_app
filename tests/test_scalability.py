@@ -6,7 +6,7 @@ import pytest
 PROTOCOL = "http"
 HOSTNAME = "localhost"
 PORT = 80
-NUMBER_OF_ID = 1
+NUMBER_OF_ID = 9
 CONNECTION_TIMEOUT = 100
 TEST_TIMEOUT = 10
 
@@ -20,7 +20,7 @@ def req(url):
     return r
 
 def pool_request(service, ids):
-    p = Pool()
+    p = Pool(processes=NUMBER_OF_ID)
     return p.map(req, url_list(service, ids))
 
 def pool_time(service):
