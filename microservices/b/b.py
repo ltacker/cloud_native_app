@@ -66,10 +66,14 @@ def api_play(id):
     channel.queue_declare(queue='redis')
     channel.queue_declare(queue='mailgun')
 
+    config.logger.debug("(%s) declared to rabbit", id)
+
     channel.queue_bind(exchange='serviceb',
                        queue='redis', routing_key='serviceb.msg')
     channel.queue_bind(exchange='serviceb',
                        queue='mailgun', routing_key='serviceb.msg')
+
+    config.logger.debug("(%s) bound to rabbit", id)
 
     message = json.dumps({"id": id,
                           "price": data["price"],
@@ -163,4 +167,4 @@ if __name__ == "__main__":
     configure_logger(app.logger, app_logfile)
 
     config.logger.info("Starting %s", config.b.NAME)
-    app.run(debug=True, port=int(config.b.conf_file.get_b_port()), processes=4, host='0.0.0.0')
+    app.run(port=int(config.b.conf_file.get_b_port()), processes=4, host='0.0.0.0')
