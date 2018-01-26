@@ -7,7 +7,7 @@ PROTOCOL = "http"
 HOSTNAME = "localhost"
 PORT = 80
 NUMBER_OF_ID = 9
-CONNECTION_TIMEOUT = 10
+CONNECTION_TIMEOUT = 100
 TEST_TIMEOUT = 10
 
 def url_list(port, path, ids):
