@@ -18,7 +18,7 @@ before_script:
   # - sleep 10
   # - docker service ls
   # - docker service scale w=5
-  - ./docker-services.sh
+  - ./docker_services.sh
   - sleep 100
 
 script:
