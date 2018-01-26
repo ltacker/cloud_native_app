@@ -20,7 +20,9 @@ script:
   - pytest
 
 after_failure:
-  - docker-compose logs
+  - docker service logs cna_web
+  - docker service logs cna_b
+  - docker service logs cna_w
 
 notifications:
   slack:
