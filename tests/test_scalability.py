@@ -10,32 +10,31 @@ NUMBER_OF_ID = 9
 CONNECTION_TIMEOUT = 100
 TEST_TIMEOUT = 10
 
-def url_list(port, path, ids):
+def url_list(service, ids):
     for i in ids:
-        yield PROTOCOL + "://" + HOSTNAME + ":" + str(port) + path + "/" + str(i)
+        yield PROTOCOL + "://" + HOSTNAME + ":" + str(PORT) + "/srv" + service + "/user/" + str(i)
 
 def req(url):
     r = requests.get(url, timeout=CONNECTION_TIMEOUT)
     r.raise_for_status()
     return r
 
-def pool_request(port, path, ids):
+def pool_request(service, ids):
     p = Pool()
-    return p.map(req, url_list(port, path, ids))
+    return p.map(req, url_list(service, ids))
 
-def pool_time(port, path):
+def pool_time(service):
     start = time.time()
-    p = pool_request(port, path, range(1, NUMBER_OF_ID + 1))
+    p = pool_request(service, range(1, NUMBER_OF_ID + 1))
     return time.time() - start
 
-@pytest.mark.parametrize("port,path,timeout", [
-    (80, "/srvb/user", TEST_TIMEOUT),
-    (80, "/srvi/user", TEST_TIMEOUT),
-    (80, "/srvp/user", TEST_TIMEOUT),
-    (80, "/srvs/user", TEST_TIMEOUT),
-    (8090, "/play", TEST_TIMEOUT)
+@pytest.mark.parametrize("service,timeout", [
+    ("b", TEST_TIMEOUT),
+    ("i", TEST_TIMEOUT),
+    ("p", TEST_TIMEOUT),
+    ("s", TEST_TIMEOUT),
 ])
-def test_services(port, path, timeout):
-    t = pool_time(port, path)
+def test_services(service, timeout):
+    t = pool_time(service)
     assert t is not None
     assert t < timeout
