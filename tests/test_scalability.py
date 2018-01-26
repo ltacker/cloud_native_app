@@ -20,7 +20,7 @@ def req(url):
     return r
 
 def pool_request(service, ids):
-    p = Pool(processes=NUMBER_OF_ID)
+    p = Pool(processes=NUMBER_OF_ID*2)
     return p.map(req, url_list(service, ids))
 
 def pool_time(service):
