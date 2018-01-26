@@ -36,7 +36,6 @@ def api_play(id):
     # Call service w
     w = requests.get(config.b.conf_file.get_b_wurl() + id)
     config.logger.debug(w)
-    config.logger.debug(w.json())
 
     data = w.json()
     config.logger.debug("data length: " + str(len(data["price"])))
@@ -74,7 +73,7 @@ def api_play(id):
     channel.basic_publish(exchange='serviceb',
                           routing_key='serviceb.msg',
                           body=message)
-    config.logger.debug(" [x] Sent %r" % message)
+    config.logger.debug(" [x] Sent %r" % message.keys())
     connection.close()
 
     # Send back answer
