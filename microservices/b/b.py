@@ -39,7 +39,7 @@ def api_play(id):
     config.logger.debug(w.json())
 
     data = w.json()
-    config.logger.debug(data["price"])
+    config.logger.debug("data length: " + str(len(data["price"])))
 
     # Send message to workers.
     if config.b.conf_file.get_b_rabbithost() == 'localhost':
