@@ -13,16 +13,7 @@ install:
 
 before_script:
   - docker swarm init
-  # - docker-compose build
-  # - docker stack deploy -c docker-compose.yml cna
-  # - sleep 10
-  # - docker service ls
-  # - docker service scale w=5
   - ./docker_services.sh
-  - sleep 5
-  - docker service scale cna_w=5
-  - docker service ls
-  - sleep 20
 
 script:
   - ./tests/scalabilityPlay.sh

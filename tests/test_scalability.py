@@ -6,7 +6,7 @@ import pytest
 PROTOCOL = "http"
 HOSTNAME = "localhost"
 PORT = 80
-NUMBER_OF_ID = 3
+NUMBER_OF_ID = 100
 CONNECTION_TIMEOUT = 100
 TEST_TIMEOUT = 10
 
