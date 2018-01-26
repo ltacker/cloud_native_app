@@ -13,11 +13,12 @@ install:
 
 before_script:
   - docker swarm init
-  - docker-compose build
-  - docker stack deploy -c docker-compose.yml cna
-  - sleep 10
-  - docker service ls
-  - docker service scale w=5
+  # - docker-compose build
+  # - docker stack deploy -c docker-compose.yml cna
+  # - sleep 10
+  # - docker service ls
+  # - docker service scale w=5
+  - ./docker-services.sh
   - sleep 100
 
 script:

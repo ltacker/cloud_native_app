@@ -4,9 +4,10 @@
 
 #
 # You need to provide your Registry address here:
-#REGISTRY=uggla
-REGISTRY=lab7-2.labossi.hpintelco.org:5500
-KEYSTONE=labossi.hpintelco.org
+REGISTRY=cloudnativeappteam2
+# REGISTRY=lab7-2.labossi.hpintelco.org:5500
+KEYSTONE=keystone
+# KEYSTONE=labossi.hpintelco.org
 MYSQL_ROOT_PASSWORD=toto
 MYSQL_DATABASE=prestashop
 MYSQL_USER=prestashop
@@ -31,7 +32,7 @@ sed -i "s/keystone/$KEYSTONE/" `dirname $0`/microservices/p/p.conf
 sed -i "s/keystone/$KEYSTONE/" `dirname $0`/microservices/w1/w1.conf
 
 # Start vizualizer on port 8080
-which docker-machine > /dev/null 2>&1 
+which docker-machine > /dev/null 2>&1
 if [ $? -ne 0 ]; then
 	ENVOPT=""
 else
@@ -68,7 +69,7 @@ done
 #	elif [ $a = "w2" ]; then
 #		OPT="--env W2_APIKEY=blakey --env W2_TO=machin@bidule.com --env W2_DOMAIN=domain"
 #	elif [ $a = "db" ]; then
-#		OPT="--env MYSQL_ROOT_PASSWORD=toto --env MYSQL_DATABASE=prestashop --env MYSQL_USER=prestashop --env MYSQL_PASSWORD=prestashop1234" 
+#		OPT="--env MYSQL_ROOT_PASSWORD=toto --env MYSQL_DATABASE=prestashop --env MYSQL_USER=prestashop --env MYSQL_PASSWORD=prestashop1234"
 #	else
 #		OPT=""
 #	fi
