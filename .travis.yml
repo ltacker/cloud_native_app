@@ -14,6 +14,7 @@ install:
 before_script:
   - docker swarm init
   - ./docker_services.sh
+  - sleep 20
 
 script:
   - ./tests/scalabilityPlay.sh
