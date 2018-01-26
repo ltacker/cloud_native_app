@@ -20,13 +20,14 @@ script:
   - ./tests/scalabilityPlay.sh
   - pytest
 
-after_script:
-  - ./docker_services_rm.sh
-
 after_failure:
+  - sleep 20
   - docker service logs cna_web
   - docker service logs cna_b
   - docker service logs cna_w
+
+after_script:
+  - ./docker_services_rm.sh
 
 notifications:
   slack:
