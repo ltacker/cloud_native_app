@@ -81,7 +81,7 @@ def api_play(id):
     channel.basic_publish(exchange='serviceb',
                           routing_key='serviceb.msg',
                           body=message)
-    config.logger.debug(" [x] Sent %r" % message.keys())
+    config.logger.debug(" [x] Sent %.100r" % message)
     connection.close()
 
     # Send back answer
@@ -146,11 +146,11 @@ def add_headers(response):
     response.headers.add('Access-Control-Allow-Headers',
                          'Content-Type,Authorization')
 
-
 @app.errorhandler(Exception)
 def handle_unexpected_error(e):
     config.logger.warn(e)
     return json.dumps({"err": str(e)}), 500
+
 
 if __name__ == "__main__":
     # Vars
