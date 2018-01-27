@@ -147,6 +147,11 @@ def add_headers(response):
                          'Content-Type,Authorization')
 
 
+@app.errorhandler(Exception)
+def handle_unexpected_error(e):
+    config.logger.warn(e)
+    return json.dumps({"err": str(e)}), 500
+
 if __name__ == "__main__":
     # Vars
     app_logfile = "b.log"
