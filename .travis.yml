@@ -1,23 +1,29 @@
-
-## DEPLOY ON OPENSTACK
 language: python
+
 python:
-  - "2.7"
+- '2.7'
 
 env:
-  - ANSIBLE_HOST_KEY_CHECKING=False
+- ANSIBLE_HOST_KEY_CHECKING=False
 
 script:
-  - echo "Run test scripts here"
+- echo "Run test scripts here"
+
+before_install:
+- openssl aes-256-cbc -K $encrypted_d0cfa861f601_key -iv $encrypted_d0cfa861f601_iv -in bastion.pem.enc -out bastion.pem -d
+- chmod 600 bastion.pem
 
 before_deploy:
-  - pip install ansible shade
-  - apt-get install -y openvpn
-  - openvpn --config vpnlab2017.conf
-
+- pip install ansible shade
+- apt-get install -y openvpn
+- openvpn --config vpnlab2017.conf
 
 deploy:
-  - provider: script
-    script: "ansible-playbook .playbook.yml"
-    on:
-      branch: master
+- provider: script
+  script: ansible-playbook .playbook.yml
+  on:
+    branch: master
+
+addons:
+  ssh_known_hosts:
+  - 10.11.53.29

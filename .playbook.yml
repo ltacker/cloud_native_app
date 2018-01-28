@@ -4,60 +4,17 @@
   hosts: localhost
   vars_files:    - vars/main.yml
   tasks:
-    # Create key file with 0600 permissions
-    # http://docs.ansible.com/ansible/copy_module.html
-    - name: Add private key
-      copy:
-        content: "{{ id_rsa_base64| b64decode }}"
-        dest: "{{ user_home }}/{{ rsa_filename }}"
-        mode: 0600
-    # Generate a public key from the private key
-    # http://docs.ansible.com/ansible/shell_module.html
-    - name: Generate public key
-      shell: "ssh-keygen -P '' -y -f {{ user_home }}/{{ rsa_filename }} > {{ user_home }}/{{ rsa_filename }}.pub"
-
-    # Add the public key to OpenStack
-    # http://docs.ansible.com/ansible/os_keypair_module.html
-    - name: Add keypair
-      os_keypair:
-        state: present
-        name: "{{ os_key_name }}"
-        public_key_file: "{{ user_home }}/{{ rsa_filename }}.pub"
-        auth:
-          auth_url: "{{ os_auth_url }}"
-          username: "{{ os_username }}"
-          password: "{{ os_password }}"
-          project_name: "{{ os_proj_name }}"
-      register: "create_key"
-
-    # Launch an OpenStack compute instance
-    # http://docs.ansible.com/ansible/os_server_module.html
-    - name: Launch the compute instance
-      os_server:
-        state: present
-        auth:
-          auth_url: "{{ os_auth_url }}"
-          username: "{{ os_username }}"
-          password: "{{ os_password }}"
-          project_name: "{{ os_proj_name }}"
-        name: "{{ os_vm_name }}"
-        flavor_ram: "{{ os_vm_ram }}"
-        image: "{{ os_vm_image }}"
-        key_name: "{{ os_key_name }}"
-      register: "create_server"
-
     # Add system to host_group
     # http://docs.ansible.com/ansible/add_host_module.html
     - name: Add system as host
       add_host:
-        name: "{{ create_server.openstack.public_v4 }}:{{ ssh_port }}"
-        groups: "{{ host_group }}"
-        ansible_ssh_private_key_file: "{{ user_home }}/{{ rsa_filename }}"
+        name: "10.11.53.29:22"
+        ansible_ssh_private_key_file: "bastion.pem"
 
     # Wait for port to be opened
     # http://docs.ansible.com/ansible/wait_for_module.html
     - name: Wait for SSH to be active
-      local_action: wait_for port="{{ ssh_port }}" host="{{ create_server.openstack.public_v4 }}" search_regex=OpenSSH
+      local_action: wait_for port="22" host="10.11.53.29" search_regex=OpenSSH
 
 
 - name: Configure instance withdocker
@@ -75,7 +32,7 @@
     # Install APT packages
     - name: Install packages
       apt:
-        name: "{{ item }}"
+        name: "docker"
       become: true
       with_items:
         - docker-ce
