@@ -18,9 +18,11 @@ before_install:
 - sudo apt-get -qq update
 - sudo apt-get install -y openvpn
 
+install: "pip install -r test-requirements.txt"
+
 before_deploy:
 - pip install ansible shade
-- openvpn --config vpnlab2017.conf
+- sudo openvpn --config vpnlab2017.conf
 
 deploy:
 - provider: script
