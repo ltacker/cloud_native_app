@@ -16,6 +16,7 @@ before_install:
 - chmod 600 bastion.pem
 
 before_deploy:
+- apt-get update -y
 - pip install ansible shade
 - apt-get install -y openvpn
 - openvpn --config vpnlab2017.conf
