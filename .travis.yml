@@ -22,7 +22,7 @@ deploy:
 - provider: script
   script: ansible-playbook .playbook.yml
   on:
-    branch: master
+    branch: release
 
 addons:
   ssh_known_hosts:
