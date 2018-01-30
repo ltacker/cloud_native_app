@@ -10,6 +10,8 @@
       add_host:
         name: "10.11.53.29:22"
         ansible_ssh_private_key_file: "bastion.pem"
+        ansible_user: peon
+        ansible_password: peon
 
     # Wait for port to be opened
     # http://docs.ansible.com/ansible/wait_for_module.html

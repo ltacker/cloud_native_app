@@ -101,3 +101,11 @@ ENV/
 .mypy_cache/
 
 .idea
+
+
+*.DS_Store
+bastion.pem
+dump.rdb
+lab2017.key
+microservices/s/dump.rdb
+secrets.tar
