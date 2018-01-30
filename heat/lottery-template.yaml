@@ -1,0 +1,288 @@
+heat_template_version: 2017-09-01
+
+description: >
+  Hello world HOT template that just defines a single server.
+  Contains just base features to verify base HOT support.
+
+parameters:
+
+resources:
+
+# NETWORKING
+  public:
+    type: OS::Neutron::Net
+
+  private:
+    type: OS::Neutron::Net
+
+  public-subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: public }
+      cidr: "10.11.54.1/24"
+      dns_nameservers: [ "8.8.8.8", "8.8.4.4" ]
+      ip_version: 4
+
+
+  private-subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: private }
+      cidr: "192.168.0.0/24"
+      dns_nameservers: [ "8.8.8.8", "8.8.4.4" ]
+      ip_version: 4
+
+  floating_ip-1:
+    type: OS::Nova::FloatingIP
+    properties:
+        pool: public
+  floating_ip-2:
+    type: OS::Nova::FloatingIP
+    properties:
+        pool: public
+  floating_ip-3:
+    type: OS::Nova::FloatingIP
+    properties:
+        pool: public
+  floating_ip-4:
+    type: OS::Nova::FloatingIP
+    properties:
+        pool: public
+  floating_ip-5:
+    type: OS::Nova::FloatingIP
+    properties:
+        pool: public
+  floating_ip-6:
+    type: OS::Nova::FloatingIP
+    properties:
+        pool: public
+
+  websecgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules:
+        - protocol: tcp
+          remote_ip_prefix: 0.0.0.0/0
+          port_range_min: 80
+          port_range_max: 80
+        - protocol: tcp
+          remote_ip_prefix: 0.0.0.0/0
+          port_range_min: 443
+          port_range_max: 443
+        - protocol: tcp
+          remote_ip_prefix: 0.0.0.0/0
+          port_range_min: 22
+          port_range_max: 22
+
+  instance_port:
+    type: OS::Neutron::Port
+    properties:
+      network: private
+      security_groups:
+        - { get_resource: websecgroup }
+        - default 
+      fixed_ips:
+        - subnet_id: private-subnet
+
+# INSTANCES
+
+  volume-1:
+    type: OS::Cinder::Volume
+    properties:
+      size: 24
+      image: my-ubuntu-image
+  volume-2:
+    type: OS::Cinder::Volume
+    properties:
+      size: 24
+      image: my-ubuntu-image
+  volume-3:
+    type: OS::Cinder::Volume
+    properties:
+      size: 24
+      image: my-ubuntu-image
+  volume-4:
+    type: OS::Cinder::Volume
+    properties:
+      size: 24
+      image: my-ubuntu-image
+  volume-5:
+    type: OS::Cinder::Volume
+    properties:
+      size: 24
+      image: my-ubuntu-image
+  volume-6:
+    type: OS::Cinder::Volume
+    properties:
+      size: 24
+      image: my-ubuntu-image
+
+  instance-1:
+    type: OS::Nova::Server
+    properties:
+      name: server-1
+      key_name: key-1 
+      image: my-ubuntu-image
+      flavor: m1.small
+      networks:
+          - port: { get_resource: instance_port }
+      admin_pass: Bagger_288
+      block_device_mapping:
+        - device_name: vda-1
+          volume_id: { get_resource: volume-1 }
+          delete_on_termination: false 
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/bash
+            echo db_port
+            touch succes.txt
+          params:
+            db_port: 5000
+
+  instance-2:
+    type: OS::Nova::Server
+    properties:
+      name: server-2
+      key_name: key-1 
+      image: my-ubuntu-image
+      flavor: m1.small
+      networks:
+          - port: { get_resource: instance_port }
+      admin_pass: Bagger_288
+      block_device_mapping:
+        - device_name: vda-2
+          volume_id: { get_resource: volume-2 }
+          delete_on_termination: false 
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/bash
+            echo db_port
+            touch success.txt
+          params:
+            db_port: 5000
+
+  instance-3:
+    type: OS::Nova::Server
+    properties:
+      name: server-3
+      key_name: key-1 
+      image: my-ubuntu-image
+      flavor: m1.small
+      networks:
+          - port: { get_resource: instance_port }
+      admin_pass: Bagger_288
+      block_device_mapping:
+        - device_name: vda-3
+          volume_id: { get_resource: volume-3 }
+          delete_on_termination: false 
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/bash
+            echo db_port
+            touch success.txt
+          params:
+            db_port: 5000
+
+  instance-4:
+    type: OS::Nova::Server
+    properties:
+      name: server-4
+      key_name: key-1 
+      image: my-ubuntu-image
+      flavor: m1.small
+      networks:
+          - port: { get_resource: instance_port }
+      admin_pass: Bagger_288
+      block_device_mapping:
+        - device_name: vda-4
+          volume_id: { get_resource: volume-4 }
+          delete_on_termination: false 
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/bash
+            echo db_port
+            touch success.txt
+          params:
+            db_port: 5000
+
+  instance-5:
+    type: OS::Nova::Server
+    properties:
+      name: server-5
+      key_name: key-1 
+      image: my-ubuntu-image
+      flavor: m1.small
+      networks:
+          - port: { get_resource: instance_port }
+      admin_pass: Bagger_288
+      block_device_mapping:
+        - device_name: vda-5
+          volume_id: { get_resource: volume-5 }
+          delete_on_termination: false 
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/bash
+            echo db_port
+            touch success.txt
+          params:
+            db_port: 5000
+
+  instance-6:
+    type: OS::Nova::Server
+    properties:
+      name: server-6
+      key_name: key-1 
+      image: my-ubuntu-image
+      flavor: m1.small
+      networks:
+          - port: { get_resource: instance_port }
+      admin_pass: Bagger_288
+      block_device_mapping:
+        - device_name: vda-6
+          volume_id: { get_resource: volume-6 }
+          delete_on_termination: false 
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/bash
+            echo db_port
+            touch success.txt
+          params:
+            db_port: 5000
+
+  association-1:
+    type: OS::Nova::FloatingIPAssociation
+    properties:
+      floating_ip: { get_resource: floating_ip-1 }
+      server_id: { get_resource: instance-1 }
+  association-2:
+    type: OS::Nova::FloatingIPAssociation
+    properties:
+      floating_ip: { get_resource: floating_ip-2 }
+      server_id: { get_resource: instance-2 }
+  association-3:
+    type: OS::Nova::FloatingIPAssociation
+    properties:
+      floating_ip: { get_resource: floating_ip-3 }
+      server_id: { get_resource: instance-3 }
+  association-4:
+    type: OS::Nova::FloatingIPAssociation
+    properties:
+      floating_ip: { get_resource: floating_ip-4 }
+      server_id: { get_resource: instance-4 }
+  association-5:
+    type: OS::Nova::FloatingIPAssociation
+    properties:
+      floating_ip: { get_resource: floating_ip-5 }
+      server_id: { get_resource: instance-5 }
+  association-6:
+    type: OS::Nova::FloatingIPAssociation
+    properties:
+      floating_ip: { get_resource: floating_ip-6 }
+      server_id: { get_resource: instance-6 }
+outputs:
