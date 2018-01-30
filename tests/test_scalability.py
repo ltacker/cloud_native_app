@@ -29,7 +29,7 @@ def pool_time(service):
     return time.time() - start
 
 @pytest.mark.parametrize("service,timeout", [
-    ("b", 40),
+    ("b", 50),
     ("i", 10),
     ("p", 10),
     ("s", 10),
