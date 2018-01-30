@@ -22,7 +22,7 @@ install: "pip install -r test-requirements.txt"
 
 before_deploy:
 - pip install ansible shade
-- sudo openvpn --config vpnlab2017.conf
+- sudo openvpn --config vpnlab2017.conf &
 
 deploy:
 - provider: script
