@@ -9,7 +9,6 @@ PORT = 80
 NUMBER_OF_ID = 50
 NUMBER_OF_PROCESSES = NUMBER_OF_ID
 CONNECTION_TIMEOUT = 100
-TEST_TIMEOUT = 10
 
 def url_list(service, ids):
     for i in ids:
@@ -30,10 +29,10 @@ def pool_time(service):
     return time.time() - start
 
 @pytest.mark.parametrize("service,timeout", [
-    ("b", TEST_TIMEOUT),
-    ("i", TEST_TIMEOUT),
-    ("p", TEST_TIMEOUT),
-    ("s", TEST_TIMEOUT),
+    ("b", 10),
+    ("i", 10),
+    ("p", 10),
+    ("s", 50),
 ])
 def test_services(service, timeout):
     t = pool_time(service)
