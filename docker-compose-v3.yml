@@ -78,6 +78,8 @@ services:
             cnalan:
               aliases:
                 - w
+        deploy:
+          replicas: 10
     w1:
         image: ##REGISTRY##/cloudnativeapp_w1
         links:

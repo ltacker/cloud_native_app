@@ -1,28 +1,43 @@
 language: python
+python:
+  - "2.7"
 
 sudo: required
 
-python:
-- '2.7'
-
 env:
-- ANSIBLE_HOST_KEY_CHECKING=False
-
-script:
-- echo "Run test scripts here"
+  - ANSIBLE_HOST_KEY_CHECKING=False
 
 before_install:
-- openssl aes-256-cbc -K $encrypted_d0cfa861f601_key -iv $encrypted_d0cfa861f601_iv -in secrets.tar.enc -out secrets.tar -d
-- tar xvf secrets.tar
-- chmod 600 bastion.pem
-- sudo apt-get -qq update
-- sudo apt-get install -y openvpn
+  - if [ "$TRAVIS_BRANCH" = "release" ]; then openssl aes-256-cbc -K $encrypted_d0cfa861f601_key -iv $encrypted_d0cfa861f601_iv -in secrets.tar.enc -out secrets.tar -d; fi
+  - if [ "$TRAVIS_BRANCH" = "release" ]; then tar xvf secrets.tar; fi
+  - if [ "$TRAVIS_BRANCH" = "release" ]; then chmod 600 bastion.pem; fi
 
-install: "pip install -r test-requirements.txt"
+install:
+  - if [ "$TRAVIS_BRANCH" = "release" ]; then sudo apt-get -qq update; fi
+  - if [ "$TRAVIS_BRANCH" = "release" ]; then sudo apt-get install -y openvpn; fi
+  - pip install -r test-requirements.txt
+  - pip install requests
+
+before_script:
+  - docker swarm init
+  - ./docker_services.sh
+  - sleep 20
+
+script:
+  - pytest
+
+after_failure:
+  - sleep 20
+  - docker service logs cna_web
+  - docker service logs cna_b
+  - docker service logs cna_w
+
+after_script:
+  - ./docker_services_rm.sh
 
 before_deploy:
-- pip install ansible shade
-- sudo openvpn --config vpnlab2017.conf &
+  - if [ "$TRAVIS_BRANCH" = "release" ]; then pip install ansible shade; fi
+  - if [ "$TRAVIS_BRANCH" = "release" ]; then sudo openvpn --config vpnlab2017.conf &; fi
 
 deploy:
 - provider: script

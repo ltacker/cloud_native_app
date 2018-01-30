@@ -36,10 +36,9 @@ def api_play(id):
     # Call service w
     w = requests.get(config.b.conf_file.get_b_wurl() + id)
     config.logger.debug(w)
-    config.logger.debug(w.json())
 
     data = w.json()
-    config.logger.debug(data["price"])
+    config.logger.debug("(%s) data price: %s", id, data["price"])
 
     # Send message to workers.
     if config.b.conf_file.get_b_rabbithost() == 'localhost':
@@ -55,7 +54,11 @@ def api_play(id):
                 credentials=credentials,
                 host=config.b.conf_file.get_b_rabbithost()))
 
+    config.logger.debug("(%s) connected to rabbit", id)
+
     channel = connection.channel()
+
+    config.logger.debug("(%s) channel to rabbit", id)
 
     channel.exchange_declare(exchange='serviceb',
                              exchange_type='direct')
@@ -63,10 +66,14 @@ def api_play(id):
     channel.queue_declare(queue='redis')
     channel.queue_declare(queue='mailgun')
 
+    config.logger.debug("(%s) declared to rabbit", id)
+
     channel.queue_bind(exchange='serviceb',
                        queue='redis', routing_key='serviceb.msg')
     channel.queue_bind(exchange='serviceb',
                        queue='mailgun', routing_key='serviceb.msg')
+
+    config.logger.debug("(%s) bound to rabbit", id)
 
     message = json.dumps({"id": id,
                           "price": data["price"],
@@ -74,7 +81,7 @@ def api_play(id):
     channel.basic_publish(exchange='serviceb',
                           routing_key='serviceb.msg',
                           body=message)
-    config.logger.debug(" [x] Sent %r" % message)
+    config.logger.debug(" [x] Sent %.100r" % message)
     connection.close()
 
     # Send back answer
@@ -138,6 +145,11 @@ def add_headers(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
     response.headers.add('Access-Control-Allow-Headers',
                          'Content-Type,Authorization')
+
+@app.errorhandler(Exception)
+def handle_unexpected_error(e):
+    config.logger.warn(e)
+    return json.dumps({"err": str(e)}), 500
 
 
 if __name__ == "__main__":
