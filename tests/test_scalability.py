@@ -6,7 +6,7 @@ import pytest
 PROTOCOL = "http"
 HOSTNAME = "localhost"
 PORT = 80
-NUMBER_OF_ID = 50
+NUMBER_OF_ID = 30
 NUMBER_OF_PROCESSES = NUMBER_OF_ID
 CONNECTION_TIMEOUT = 100
 
@@ -29,7 +29,7 @@ def pool_time(service):
     return time.time() - start
 
 @pytest.mark.parametrize("service,timeout", [
-    ("b", 50),
+    ("b", 40),
     ("i", 10),
     ("p", 10),
     ("s", 10),

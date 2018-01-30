@@ -79,7 +79,7 @@ services:
               aliases:
                 - w
         deploy:
-          replicas: 20
+          replicas: 10
     w1:
         image: ##REGISTRY##/cloudnativeapp_w1
         links:
